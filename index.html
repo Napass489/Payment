@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annter Shop - ช่องทางการชำระเงิน</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Prompt (Thai/Modern) & Cormorant Garamond (Luxury Display) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                        serif: ['Cormorant Garamond', 'serif'],
+                    },
+                    colors: {
+                        pinkLux: {
+                            50: '#fff0f5',
+                            100: '#ffe3ed',
+                            200: '#ffc6dc',
+                            300: '#ff98be',
+                            400: '#ff5c99',
+                            500: '#f82b78',
+                            600: '#e5125d',
+                            700: '#be0947',
+                            gold: '#d4af37',
+                            roseGold: '#e6b8b7'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background: radial-gradient(circle at 20% 15%, #fff5f8 0%, #ffdbe9 45%, #ffc2da 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #591c36;
+        }
+
+        /* Luxury Glassmorphism Card */
+        .luxury-shell {
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1.5px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 
+                0 25px 50px -12px rgba(219, 62, 117, 0.18),
+                0 0 0 1px rgba(244, 114, 182, 0.15),
+                inset 0 2px 15px rgba(255, 255, 255, 0.95);
+        }
+
+        /* Marquee Animation for ข้อความวิ่ง */
+        .marquee-wrapper {
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+        }
+
+        .marquee-track {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marqueeMove 22s linear infinite;
+        }
+
+        .marquee-wrapper:hover .marquee-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes marqueeMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
+        /* Luxury Pill Card for Bank & Slip Note */
+        .pill-card {
+            background: linear-gradient(135deg, #ffffff 0%, #fff7fa 100%);
+            border: 1.5px solid rgba(255, 166, 201, 0.55);
+            box-shadow: 
+                0 8px 20px -4px rgba(236, 72, 153, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
+            transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .pill-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(244, 63, 134, 0.65);
+            box-shadow: 0 14px 28px -6px rgba(236, 72, 153, 0.2);
+        }
+
+        /* Luxury Pink-Gold Gradient Button */
+        .btn-luxury {
+            background: linear-gradient(135deg, #ff5c99 0%, #e5125d 100%);
+            box-shadow: 0 6px 15px -3px rgba(229, 18, 93, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+            transition: all 0.25s ease;
+        }
+
+        .btn-luxury:hover {
+            background: linear-gradient(135deg, #ff70a6 0%, #be0947 100%);
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px -3px rgba(229, 18, 93, 0.55);
+        }
+
+        .btn-luxury:active {
+            transform: scale(0.97);
+        }
+
+        /* Subtle Shimmer Effect on QR Frame */
+        .qr-frame {
+            background: linear-gradient(145deg, #ffffff, #fff2f7);
+            border: 2px solid rgba(255, 182, 211, 0.7);
+            box-shadow: 
+                0 15px 35px -10px rgba(219, 39, 119, 0.16),
+                inset 0 0 0 6px rgba(255, 240, 246, 0.8);
+        }
+
+        /* Ambient Decorative Glows */
+        .bg-orb {
+            position: fixed;
+            border-radius: 9999px;
+            filter: blur(75px);
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="py-6 px-4 sm:py-10 sm:px-6 flex flex-col items-center justify-center min-h-screen relative">
+
+    <!-- Ambient Luxury Pink Orbs -->
+    <div class="bg-orb w-72 h-72 bg-pink-300/40 -top-10 -left-16"></div>
+    <div class="bg-orb w-96 h-96 bg-rose-300/35 bottom-0 -right-20"></div>
+    <div class="bg-orb w-64 h-64 bg-amber-100/50 top-1/3 left-1/2 -translate-x-1/2"></div>
+
+    <!-- Main Container Card -->
+    <main class="w-full max-w-md luxury-shell rounded-[2.25rem] p-5 sm:p-7 relative overflow-hidden">
+        
+        <!-- ========================================================= -->
+        <!-- 1. องค์ประกอบที่ 1: ข้อความวิ่ง (ย้ายมาอยู่ด้านบนสุดเหนือโลโก้)   -->
+        <!-- ========================================================= -->
+        <section aria-label="ประกาศจากทางร้าน" class="mb-5">
+            <div class="w-full rounded-full bg-gradient-to-r from-pink-50 via-white to-pink-50 border border-pink-200/90 shadow-sm py-2.5 px-4 flex items-center gap-2.5">
+                <span class="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-tr from-pink-500 to-rose-400 text-white flex items-center justify-center shadow-sm">
+                    <i class="ph-fill ph-megaphone-simple text-xs"></i>
+                </span>
+                <div class="marquee-wrapper flex-1 text-xs sm:text-sm font-medium text-pink-800">
+                    <div class="marquee-track">
+                        ✨ ยินดีต้อนรับสู่ <strong>Annter Shop</strong> — กรุณาตรวจสอบชื่อบัญชีและระบุ <strong>"โน๊ตสลิป"</strong> ทุกครั้งก่อนกดยืนยันการโอนเงิน เพื่อความรวดเร็วในการตรวจสอบยอดค่ะ ขอบคุณที่อุดหนุนนะคะ 💖
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Top Brand Header (Using User's Provided Banner/Logo Image) -->
+        <header class="flex flex-col items-center text-center mb-5">
+            <div class="relative group mb-2">
+                <div class="absolute -inset-1 bg-gradient-to-r from-pink-300 via-rose-400 to-amber-200 rounded-2xl blur opacity-40 group-hover:opacity-65 transition duration-500"></div>
+                <div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-white border-2 border-pink-200 shadow-md flex items-center justify-center p-1">
+                    <img 
+                        src="https://i.postimg.cc/132q8zZ7/mi-m-ch-x-401-20260325233031.png" 
+                        alt="Annter Shop Logo" 
+                        class="w-full h-full object-contain rounded-xl"
+                        onerror="this.onerror=null; this.src='https://placehold.co/200x200/ffe3ed/e5125d?text=Annter+Shop';"
+                    >
+                </div>
+            </div>
+            <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-pink-100/80 border border-pink-200 text-pink-700 text-[11px] font-medium tracking-wider uppercase mb-0.5">
+                <i class="ph-fill ph-sparkle text-amber-500"></i> Official Payment Portal
+            </div>
+            <h1 class="font-serif text-3xl sm:text-4xl font-bold tracking-wide bg-gradient-to-r from-pink-700 via-rose-600 to-pink-500 bg-clip-text text-transparent">
+                Annter Shop
+            </h1>
+        </header>
+
+        <!-- ========================================================= -->
+        <!-- 2. องค์ประกอบที่ 2 ตามแบบร่าง: กรอบสี่เหลี่ยม QR Code          -->
+        <!-- ========================================================= -->
+        <section aria-label="คิวอาร์โค้ดสำหรับชำระเงิน" class="flex flex-col items-center mb-5">
+            <div class="qr-frame w-full max-w-[270px] sm:max-w-[290px] rounded-3xl p-5 sm:p-6 flex flex-col items-center relative group">
+                <!-- Decorative Corner Accents -->
+                <div class="w-full flex items-center justify-between text-[11px] font-semibold text-pink-500/80 px-1 mb-4">
+                    <span class="flex items-center gap-1"><i class="ph-fill ph-qr-code"></i> SCAN TO PAY</span>
+                    <span class="px-2 py-0.5 rounded-full bg-pink-100 text-pink-600 text-[10px]">DEMO QR</span>
+                </div>
+
+                <!-- Interactive Canvas QR Code (Allows Crisp Download) -->
+                <div class="relative mb-6 p-3 bg-white rounded-2xl shadow-inner border border-pink-100 flex items-center justify-center">
+                    <canvas id="qrCanvas" width="180" height="180" class="w-[155px] h-[155px] sm:w-[175px] sm:h-[175px] rounded-lg"></canvas>
+                </div>
+
+                <!-- Save QR Button inside/bottom of QR frame (Added clear spacing above button) -->
+                <button 
+                    id="saveQrBtn"
+                    onclick="downloadQRCode()"
+                    type="button"
+                    class="w-full py-2.5 px-4 rounded-xl bg-pink-50 hover:bg-pink-100 active:bg-pink-200 border border-pink-200/80 text-pink-700 font-medium text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer">
+                    <i class="ph-bold ph-download-simple text-base text-pink-600"></i>
+                    <span>บันทึกคิวอาร์โค้ด (Save QR)</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- 3. องค์ประกอบที่ 3 ตามแบบร่าง: ชื่อบัญชี (ใต้กรอบ QR)          -->
+        <!-- ========================================================= -->
+        <section aria-label="ชื่อบัญชี" class="text-center mb-5">
+            <p class="text-xs font-medium text-pink-500 uppercase tracking-widest mb-0.5">ชื่อบัญชี (Account Name)</p>
+            <h2 class="text-lg sm:text-xl font-bold text-pink-900 flex items-center justify-center gap-1.5">
+                <i class="ph-fill ph-seal-check text-pink-500 text-xl"></i>
+                <span>แอนเทอร์ ช็อป (Annter Shop Demo)</span>
+            </h2>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- 4. องค์ประกอบที่ 4 ตามแบบร่าง: ชื่อธนาคาร + เลขบัญชี + Copy    -->
+        <!-- ========================================================= -->
+        <section aria-label="หมายเลขบัญชีธนาคาร" class="mb-3.5">
+            <div class="pill-card rounded-full py-3 px-4 sm:px-5 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
+                    <!-- Bank Icon Badge -->
+                    <div class="w-11 h-11 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 text-white flex items-center justify-center shadow-sm flex-shrink-0">
+                        <i class="ph-fill ph-bank text-xl"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-xs font-medium text-pink-600 truncate">
+                            ธนาคารกสิกรไทย <span class="text-[10px] text-pink-400 font-normal">(ตัวอย่าง)</span>
+                        </p>
+                        <p id="bankAccountText" class="text-base sm:text-lg font-bold tracking-wider text-pink-950 font-mono">
+                            000-0000-000
+                        </p>
+                    </div>
+                </div>
+
+                <button 
+                    type="button"
+                    onclick="copyText('bankAccountText', 'คัดลอกหมายเลขบัญชีเรียบร้อยแล้ว 💖')"
+                    class="btn-luxury text-white font-medium text-xs sm:text-sm px-4 py-2.5 rounded-full flex items-center gap-1.5 flex-shrink-0 cursor-pointer">
+                    <i class="ph-bold ph-copy text-sm"></i>
+                    <span>Copy</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- 5. องค์ประกอบที่ 5 ตามแบบร่าง: โน๊ตสลิป + รหัสอ้างอิง + Copy   -->
+        <!-- ========================================================= -->
+        <section aria-label="โน๊ตสลิปก่อนโอน" class="mb-5">
+            <div class="pill-card rounded-full py-3 px-4 sm:px-5 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
+                    <!-- Slip Note Icon Badge -->
+                    <div class="w-11 h-11 rounded-full bg-gradient-to-br from-amber-400 to-pink-500 text-white flex items-center justify-center shadow-sm flex-shrink-0">
+                        <i class="ph-fill ph-note-pencil text-xl"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-xs font-medium text-pink-600 truncate">
+                            โน๊ตสลิป <span class="text-[10px] text-pink-400 font-normal">(ระบุในช่องบันทึกช่วยจำ)</span>
+                        </p>
+                        <p id="slipNoteText" class="text-base sm:text-lg font-bold tracking-wider text-pink-950 font-mono">
+                            000-0000-000
+                        </p>
+                    </div>
+                </div>
+
+                <button 
+                    type="button"
+                    onclick="copyText('slipNoteText', 'คัดลอกข้อความโน๊ตสลิปเรียบร้อยแล้ว ✨')"
+                    class="btn-luxury text-white font-medium text-xs sm:text-sm px-4 py-2.5 rounded-full flex items-center gap-1.5 flex-shrink-0 cursor-pointer">
+                    <i class="ph-bold ph-copy text-sm"></i>
+                    <span>Copy</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- 6. องค์ประกอบที่ 6 ตามแบบร่าง: กรอบสี่เหลี่ยม รายละเอียด         -->
+        <!-- ========================================================= -->
+        <section aria-label="รายละเอียดและเงื่อนไขการโอนเงิน">
+            <div class="w-full rounded-3xl bg-gradient-to-b from-white/95 to-pink-50/90 border border-pink-200/90 p-4 sm:p-5 shadow-inner">
+                <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-pink-100">
+                    <h3 class="text-sm sm:text-base font-bold text-pink-800 flex items-center gap-1.5">
+                        <i class="ph-fill ph-sparkle text-pink-500"></i>
+                        <span>รายละเอียดการชำระเงิน</span>
+                    </h3>
+                    <span class="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-pink-100 text-pink-600">
+                        โปรดอ่านก่อนโอน
+                    </span>
+                </div>
+                <ul class="space-y-2 text-xs sm:text-sm text-pink-900/85 leading-relaxed">
+                    <li class="flex items-start gap-2">
+                        <i class="ph-fill ph-check-circle text-pink-500 mt-0.5 flex-shrink-0"></i>
+                        <span>กรุณากดคัดลอก <strong>"โน๊ตสลิป"</strong> ด้านบน แล้วนำไปวางในช่องบันทึกช่วยจำก่อนกดยืนยันการโอนเงินทุกครั้ง</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="ph-fill ph-check-circle text-pink-500 mt-0.5 flex-shrink-0"></i>
+                        <span>เมื่อโอนเงินสำเร็จแล้ว กรุณาบันทึกภาพสลิปที่มี QR Code ชัดเจนส่งให้แอดมินทางแชทของร้าน <strong>Annter Shop</strong></span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="ph-fill ph-warning-circle text-rose-500 mt-0.5 flex-shrink-0"></i>
+                        <span>ห้ามโอนเงินช่วงเวลา 23:00 - 00:30 น. เนื่องจากระบบธนาคารปรับปรุงประจำวัน อาจทำให้ยอดเข้าล่าช้า</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Subtle Footer -->
+        <footer class="mt-5 text-center text-[11px] text-pink-600/75 font-light">
+            © 2026 Annter Shop • Luxury Payment Showcase (Demo Version)
+        </footer>
+    </main>
+
+    <!-- Custom Toast Notification (No alert() used) -->
+    <div 
+        id="toastBox" 
+        role="status"
+        aria-live="polite"
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 translate-y-4 transition-all duration-300 ease-out">
+        <div class="bg-gradient-to-r from-pink-600 to-rose-500 text-white px-5 py-3 rounded-full shadow-xl border border-pink-300/50 flex items-center gap-2.5 text-xs sm:text-sm font-medium whitespace-nowrap">
+            <i class="ph-fill ph-check-circle text-lg text-amber-200"></i>
+            <span id="toastMessage">คัดลอกข้อมูลสำเร็จ!</span>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * สร้างภาพ QR Code ตัวอย่าง (Demo) ลงใน Canvas
+         * เพื่อให้หน้าตาดูหรูหราสมจริง และสามารถกดดาวน์โหลดเป็นไฟล์ .png ได้จริง
+         */
+        function renderDemoQRCode() {
+            const canvas = document.getElementById('qrCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const size = canvas.width;
+
+            // พื้นหลังสีขาวอมชมพูอ่อน
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, size, size);
+
+            // สีหลักของลาย QR Code (สีชมพูเข้มหรูหรา)
+            const primaryColor = '#9d174d';
+            const accentColor = '#e11d48';
+
+            const gridCount = 21;
+            const cellSize = Math.floor((size - 20) / gridCount);
+            const offset = Math.floor((size - cellSize * gridCount) / 2);
+
+            // ฟังก์ชันวาดกรอบ Finder Pattern ทั้ง 3 มุมของ QR
+            function drawFinderPattern(gx, gy) {
+                const x = offset + gx * cellSize;
+                const y = offset + gy * cellSize;
+                ctx.fillStyle = primaryColor;
+                ctx.fillRect(x, y, cellSize * 7, cellSize * 7);
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(x + cellSize, y + cellSize, cellSize * 5, cellSize * 5);
+                ctx.fillStyle = accentColor;
+                ctx.fillRect(x + cellSize * 2, y + cellSize * 2, cellSize * 3, cellSize * 3);
+            }
+
+            drawFinderPattern(0, 0);
+            drawFinderPattern(gridCount - 7, 0);
+            drawFinderPattern(0, gridCount - 7);
+
+            // วาดจุดข้อมูลจำลองแบบคงที่ (Deterministic pattern)
+            ctx.fillStyle = primaryColor;
+            for (let r = 0; r < gridCount; r++) {
+                for (let c = 0; c < gridCount; c++) {
+                    // ข้ามบริเวณ Finder Pattern ทั้ง 3 มุม
+                    const inTopLeft = r < 8 && c < 8;
+                    const inTopRight = r < 8 && c >= gridCount - 8;
+                    const inBottomLeft = r >= gridCount - 8 && c < 8;
+                    // ข้ามบริเวณตรงกลางสำหรับป้าย DEMO
+                    const inCenter = r >= 8 && r <= 12 && c >= 7 && c <= 13;
+
+                    if (inTopLeft || inTopRight || inBottomLeft || inCenter) continue;
+
+                    // สร้างลวดลายสวยงาม
+                    const seed = (r * 31 + c * 17 + r * c) % 7;
+                    if (seed === 0 || seed === 2 || seed === 5) {
+                        const px = offset + c * cellSize;
+                        const py = offset + r * cellSize;
+                        ctx.beginPath();
+                        ctx.roundRect(px + 0.5, py + 0.5, cellSize - 1, cellSize - 1, 2);
+                        ctx.fill();
+                    }
+                }
+            }
+
+            // วาดป้ายชื่อร้านตรงกลาง QR Code
+            ctx.fillStyle = '#fff0f5';
+            ctx.strokeStyle = '#f43f5e';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.roundRect(size / 2 - 28, size / 2 - 14, 56, 28, 6);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = '#be123c';
+            ctx.font = 'bold 10px Prompt, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('ANNTER', size / 2, size / 2 - 4);
+            ctx.font = '600 8px Prompt, sans-serif';
+            ctx.fillText('DEMO QR', size / 2, size / 2 + 6);
+        }
+
+        /**
+         * ฟังก์ชันคัดลอกข้อความลงคลิปบอร์ด (รองรับทั้งเบราว์เซอร์ทั่วไปและ iFrame)
+         */
+        function copyText(elementId, successMessage) {
+            const targetEl = document.getElementById(elementId);
+            if (!targetEl) return;
+            const textToCopy = targetEl.innerText.trim();
+
+            // ใช้ textarea ชั่วคราวและ document.execCommand('copy') เพื่อให้ทำงานได้ทุกสภาพแวดล้อม
+            const tempInput = document.createElement('textarea');
+            tempInput.value = textToCopy;
+            tempInput.style.position = 'fixed';
+            tempInput.style.left = '-9999px';
+            document.body.appendChild(tempInput);
+            tempInput.focus();
+            tempInput.select();
+
+            try {
+                document.execCommand('copy');
+                showToast(`${successMessage} (${textToCopy})`);
+            } catch (err) {
+                showToast('ไม่สามารถคัดลอกอัตโนมัติได้ กรุณาคัดลอกด้วยตนเอง');
+            } finally {
+                document.body.removeChild(tempInput);
+            }
+        }
+
+        /**
+         * ฟังก์ชันบันทึกคิวอาร์โค้ดลงเครื่องลูกค้าเป็นไฟล์ PNG พร้อมการ์ดสรุปชื่อบัญชี
+         */
+        function downloadQRCode() {
+            const qrCanvas = document.getElementById('qrCanvas');
+            if (!qrCanvas) return;
+
+            // สร้าง Canvas แผ่นใหม่เพื่อใส่กรอบสีชมพูหรูหราพร้อมชื่อร้านเวลาลูกค้านำไปสแกนในแอปธนาคาร
+            const exportCanvas = document.createElement('canvas');
+            exportCanvas.width = 500;
+            exportCanvas.height = 620;
+            const ctx = exportCanvas.getContext('2d');
+
+            // พื้นหลังสีชมพูไล่เฉด
+            const grad = ctx.createLinearGradient(0, 0, 500, 620);
+            grad.addColorStop(0, '#fff0f5');
+            grad.addColorStop(1, '#ffc6dc');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 500, 620);
+
+            // การ์ดสีขาวด้านใน
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.roundRect(35, 35, 430, 550, 28);
+            ctx.fill();
+
+            // หัวข้อร้าน
+            ctx.fillStyle = '#be123c';
+            ctx.font = 'bold 28px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Annter Shop', 250, 95);
+
+            ctx.fillStyle = '#e11d48';
+            ctx.font = '16px sans-serif';
+            ctx.fillText('QR Code สำหรับชำระเงิน (Demo)', 250, 128);
+
+            // วาดรูป QR Code ลงไปตรงกลาง
+            ctx.drawImage(qrCanvas, 100, 155, 300, 300);
+
+            // ชื่อบัญชีและเลขบัญชีด้านล่างภาพ
+            ctx.fillStyle = '#881337';
+            ctx.font = 'bold 18px sans-serif';
+            ctx.fillText('ชื่อบัญชี: แอนเทอร์ ช็อป (Demo)', 250, 495);
+
+            ctx.fillStyle = '#be123c';
+            ctx.font = '16px monospace';
+            ctx.fillText('เลขบัญชี: 000-0000-000 | โน๊ตสลิป: 000-0000-000', 250, 530);
+
+            // สั่งดาวน์โหลดเป็นไฟล์ PNG
+            const dataUrl = exportCanvas.toDataURL('image/png');
+            const downloadLink = document.createElement('a');
+            downloadLink.href = dataUrl;
+            downloadLink.download = 'Annter-Shop-QR-Demo.png';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+
+            showToast('บันทึกภาพคิวอาร์โค้ดลงเครื่องเรียบร้อยแล้ว 📸');
+        }
+
+        /**
+         * ฟังก์ชันแสดงแถบแจ้งเตือน (Toast Notification) แทนการใช้ alert()
+         */
+        let toastTimeout;
+        function showToast(message) {
+            const toastBox = document.getElementById('toastBox');
+            const toastMessage = document.getElementById('toastMessage');
+            if (!toastBox || !toastMessage) return;
+
+            toastMessage.textContent = message;
+            toastBox.classList.remove('opacity-0', 'translate-y-4');
+            toastBox.classList.add('opacity-100', 'translate-y-0');
+
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toastBox.classList.remove('opacity-100', 'translate-y-0');
+                toastBox.classList.add('opacity-0', 'translate-y-4');
+            }, 2800);
+        }
+
+        window.onload = function () {
+            renderDemoQRCode();
+        };
+    </script>
+</body>
+</html>
